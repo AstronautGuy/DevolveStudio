@@ -89,9 +89,9 @@ const AuthPage = () => {
                         </Button>
 
                         <div className="flex items-center my-4">
-                            <hr className="flex-grow border-gray-300" />
+                            <hr className="grow border-gray-300" />
                             <span className="mx-3 text-gray-500">OR</span>
-                            <hr className="flex-grow border-gray-300" />
+                            <hr className="grow border-gray-300" />
                         </div>
 
                         <Button
