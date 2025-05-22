@@ -142,3 +142,34 @@ body {
 .animate-blink {
   animation: blink 1s step-start infinite;
 }
+
+@layer utilities {
+  @keyframes borderGrow {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  .animate-border {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animate-border::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: black;
+    width: 0%;
+    transition: width 0.5s ease-out;
+  }
+
+  .animate-border:hover::after {
+    width: 100%;
+  }
+}

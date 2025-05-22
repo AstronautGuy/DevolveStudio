@@ -1,5 +1,5 @@
 'use client'
-
+//use shadcn for navigation !!!!!!!!!!!!!!!!!!
 import Image from "next/image";
 import Link from "next/link";
 import localFont from 'next/font/local';
@@ -31,7 +31,7 @@ export default function Header() {
                     </div>
                 </div>
             </Link>
-            <div className={"flex flex-row items-center gap-5 uppercase text-lg"}>
+            <div className={"flex flex-row items-center gap-5 uppercase text-lg -ml-40"}>
                 <Link href="/">
                     <div
                         className={"flex flex-row items-center"}>
