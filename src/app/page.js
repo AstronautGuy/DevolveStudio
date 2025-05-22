@@ -1,69 +1,132 @@
-// pages/google-auth.js
 'use client';
-import { useEffect, useState } from 'react';
-import { supabase } from '/supabaseClient'; // Adjust the path if necessary
 
-const GoogleAuth = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+import { useEffect, useRef, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export default function HomePromptPage() {
+    const [step, setStep] = useState(1);
+    const [hasAnswered, setHasAnswered] = useState(false);
+    const [selectedAnswers, setSelectedAnswers] = useState({});
+    const promptRef = useRef(null);
 
     useEffect(() => {
-        const fetchSession = async () => {
-            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-            if (sessionError) {
-                setError(sessionError.message);
-            } else {
-                setUser(session?.user ?? null);
-            }
-            setLoading(false);
-        };
-
-        fetchSession();
-
-        // Listen for changes in authentication state
-        const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
-            setUser(session?.user ?? null);
-        });
-
-        // Cleanup subscription on unmount
-        return () => {
-            authListener.unsubscribe();
-        };
+        const answeredBefore = localStorage.getItem('hasAnswered');
+        if (answeredBefore === 'true') {
+            setHasAnswered(false);
+        }
     }, []);
 
-    const handleGoogleSignIn = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-        if (error) {
-            setError(error.message);
+    useEffect(() => {
+        if (!hasAnswered && promptRef.current) {
+            promptRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-    };
+    }, [hasAnswered]);
 
-    const handleSignOut = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-            setError(error.message);
+    const handleNext = () => {
+        if (step < 3) {
+            setStep((prev) => prev + 1);
         } else {
-            setUser(null);
+            localStorage.setItem('hasAnswered', 'true');
+            setHasAnswered(true);
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    const handleSkip = () => {
+        localStorage.setItem('hasAnswered', 'true');
+        setHasAnswered(true);
+    };
+
+    const questions = [
+        {
+            question: 'What type of website?',
+            options: ['Business', 'Personal', 'Portfolio'],
+        },
+        {
+            question: 'Preferred theme?',
+            options: ['Dark', 'Light', 'Minimal'],
+        },
+        {
+            question: 'How complex should it be?',
+            options: ['Simple', 'Medium', 'Advanced'],
+        },
+    ];
+
+    const StepCard = ({ stepIndex }) => {
+        const { question, options } = questions[stepIndex];
+        const selected = selectedAnswers[stepIndex] || '';
+
+        return (
+            <motion.div
+                key={stepIndex}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+            >
+                <Card className="w-full max-w-xl mx-auto">
+                    <CardContent className="p-6 space-y-4">
+                        <div className="flex justify-between items-center mb-2">
+              <span className="text-sm text-muted-foreground">
+                Question {stepIndex + 1} of {questions.length}
+              </span>
+                            <Button variant="ghost" size="sm" onClick={handleSkip}>
+                                Skip
+                            </Button>
+                        </div>
+                        <h2 className="text-xl font-semibold">{question}</h2>
+                        <RadioGroup
+                            value={selected}
+                            onValueChange={(val) =>
+                                setSelectedAnswers((prev) => ({
+                                    ...prev,
+                                    [stepIndex]: val,
+                                }))
+                            }
+                            className="space-y-2"
+                        >
+                            {options.map((option) => (
+                                <div className="flex items-center space-x-2" key={option}>
+                                    <RadioGroupItem value={option} id={option} />
+                                    <Label htmlFor={option}>{option}</Label>
+                                </div>
+                            ))}
+                        </RadioGroup>
+                        <Button className="mt-4" disabled={!selected} onClick={handleNext}>
+                            {stepIndex < questions.length - 1 ? 'Next' : 'Finish'}
+                        </Button>
+                    </CardContent>
+                </Card>
+            </motion.div>
+        );
+    };
 
     return (
-        <div>
-            <h1>Google Authentication</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {user ? (
-                <div>
-                    <h2>Welcome, {user.email}</h2>
-                    <button onClick={handleSignOut}>Sign Out</button>
+        <div className="p-6">
+
+            {!hasAnswered && (
+                <div ref={promptRef} className="mb-6">
+                    <AnimatePresence mode="wait">
+                        <StepCard key={step} stepIndex={step - 1} />
+                    </AnimatePresence>
                 </div>
-            ) : (
-                <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+            )}
+
+            {hasAnswered && (
+                <motion.main
+                    key="main-content"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                    <h2 className="text-2xl font-semibold">Welcome aboard, Astronaut 🧑‍🚀</h2>
+                    <p className="mt-4">Your dashboard is live. The void is yours to shape.</p>
+                    {/* Replace this with your actual content */}
+                </motion.main>
             )}
         </div>
     );
-};
-
-export default GoogleAuth;
+}
