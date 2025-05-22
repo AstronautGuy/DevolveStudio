@@ -118,3 +118,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 600; /* Default to medium thickness */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--foreground);
+  background: var(--background);
+  overflow-x: hidden;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.animate-blink {
+  animation: blink 1s step-start infinite;
+}
