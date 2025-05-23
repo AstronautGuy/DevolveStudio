@@ -1,16 +1,54 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronDown, Menu, X } from "lucide-react";
+import localFont from 'next/font/local';
+import NavigationMenuComponent from "@/components/NavigationMenu";
+
+const myFont = localFont({
+    src: 'LincolnElectric-Over.ttf',
+})
+
+
 
 export default function Header() {
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [scrollStage, setScrollStage] = useState("top");
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.body.scrollHeight - windowHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+
+            if (scrollPercent < 1) {
+                setScrollStage("top");
+            } else if (scrollPercent >= 1 && scrollPercent < 100) {
+                setScrollStage("mid");
+            } else {
+                setScrollStage("scrolled");
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+
+    const headerClass = `
+        fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-10 
+        flex justify-between items-center w-full transition-all duration-300 font-light py-4
+        ${scrollStage === "top" ? "bg-transparent" : ""}
+        ${scrollStage === "mid" ? "bg-black text-white" : ""}
+        ${scrollStage === "scrolled" ? "bg-black text-white" : ""}
+    `;
 
     return (
         <>
-            <header className="fixed top-0 left-0 right-0 z-50 bg-transparent px-4 sm:px-6 lg:px-10 flex justify-between items-center w-full">
+            <header className={headerClass}>
                 <Link href="/" className="flex items-center gap-2">
                     <Image
                         src="/DevolveLogo.png"
@@ -20,27 +58,26 @@ export default function Header() {
                         className="w-14 h-14"
                         priority
                     />
-                    <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#a67941] font-light select-none cursor-pointer">
+                    <div className={myFont.className}>
+                    <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#a67941] font-light select-none cursor-pointer ">
                         DEVOLVE STUDIO
                     </h1>
+                    </div>
                 </Link>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex flex-row items-center gap-4 text-sm sm:text-base lg:text-lg uppercase">
-                    <Link href="/" className="flex items-center gap-1">
-                        Products <ChevronDown size={16} />
-                    </Link>
-                    <Link href="/" className="flex items-center gap-1">
-                        Services <ChevronDown size={16} />
-                    </Link>
-                </nav>
+                <div
+                    onMouseEnter={() => setScrollStage("mid")}
+                    onMouseLeave={() => setScrollStage("start")}
+                    className={"hidden md:block"}
+                >
+                    <NavigationMenuComponent />
+                </div>
 
                 <div className="hidden md:flex flex-row items-center gap-4 text-sm sm:text-base lg:text-lg uppercase">
                     <Link href="/">Log In</Link>
                     <Link href="/">Contact Us</Link>
                 </div>
 
-                {/* Mobile Hamburger */}
                 <button
                     className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a67941]"
                     aria-label="Toggle menu"
@@ -50,16 +87,14 @@ export default function Header() {
                 </button>
             </header>
 
-            {/* Drawer Overlay */}
             {drawerOpen && (
                 <div
-                    className="fixed inset-0 bg-none bg-opacity-60 z-40"
+                    className="fixed inset-0 bg-black bg-opacity-30 z-40"
                     onClick={() => setDrawerOpen(false)}
                     aria-hidden="true"
                 />
             )}
 
-            {/* Fullscreen Drawer */}
             <aside
                 className={`fixed top-0 left-0 h-full w-full bg-white z-50 transform transition-transform duration-300 ease-in-out ${
                     drawerOpen ? "translate-x-0" : "translate-x-full"
@@ -68,9 +103,11 @@ export default function Header() {
                 <div className="flex items-center justify-between p-6 border-b border-gray-200">
                     <Link href="/" className="flex items-center gap-2" onClick={() => setDrawerOpen(false)}>
                         <Image src="/DevolveLogo.png" alt="Logo" width={40} height={40} />
+                        <div className={myFont.className}>
                         <h1 className="text-lg font-light text-[#a67941] select-none cursor-pointer">
                             DEVOLVE STUDIO
                         </h1>
+                        </div>
                     </Link>
 
                     <button

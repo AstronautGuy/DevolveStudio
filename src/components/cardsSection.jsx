@@ -3,8 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-
-import { Button } from '@/components/ui/button'; // Make sure this path is correct
+import Image from 'next/image';
 
 const cards = [
     '/Creative-Website-Background-Template.jpg',
@@ -141,11 +140,14 @@ export default function Horizontal3DStackWithNav() {
                                 style={{ zIndex: variants[pos].zIndex }}
                                 onClick={() => handleCardClick(id)}
                             >
-                                <img
+                                <Image
                                     src={cards[id]}
                                     alt={`Card ${id + 1}`}
+                                    height={10000}
+                                    width={10000}
                                     className="w-full h-full object-cover select-none"
                                     draggable={false}
+                                    priority={false}
                                 />
                             </motion.div>
                         ))}

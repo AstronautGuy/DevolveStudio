@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import Hero from "@/components/Hero";
 import EmailSection from "@/components/emailSection";
 import CardsSection from "@/components/cardsSection";
@@ -23,6 +21,7 @@ export default function Home() {
                         loop
                         muted
                         playsInline
+                        disablePictureInPicture={true}
                     >
                         <source src="/videos/intro-1.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
