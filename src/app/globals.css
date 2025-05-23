@@ -146,7 +146,7 @@ body {
 @layer utilities {
   @keyframes borderGrow {
     0% {
-      width: 0%;
+      width: 0;
     }
     100% {
       width: 100%;
@@ -165,11 +165,29 @@ body {
     left: 0;
     height: 2px;
     background-color: black;
-    width: 0%;
+    width: 0;
     transition: width 0.5s ease-out;
   }
 
-  .animate-border:hover::after {
+  /* Hover or active — border grows */
+  .animate-border:hover::after,
+  .animate-border.active::after {
     width: 100%;
   }
+}
+
+.perspective {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
 }

@@ -1,0 +1,155 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight } from "lucide-react";
+
+
+const cards = [
+    '/Creative-Website-Background-Template.jpg',
+    '/images/card2.jpg',
+    '/images/card3.jpg',
+    '/images/card4.jpg',
+    '/images/card5.jpg',
+    '/images/card6.jpg',
+];
+
+const buttonLabels = [
+    'Online Store',
+    'Local Business',
+    'Portfolio',
+    'Restaurant',
+    'Personal',
+    'Services',
+];
+
+const descriptions = [
+    'Feel the calm of untouched peaks, where the air is pure and dreams soar high.',
+    'The city never sleeps—neon glow, endless energy, a pulse that keeps you alive.',
+    'Breathe in the salty ocean air; waves crash, carrying stories of the deep.',
+    'Among towering trees, secrets rustle in the leaves, a dance of life and time.',
+    'Golden sands stretch far and wide, a landscape of silent power and mystery.',
+    'Under a canvas of stars, night unfolds its timeless, mesmerizing tale.',
+];
+
+
+export default function Horizontal3DStackWithNav() {
+    const [index, setIndex] = useState(0);
+    const [hoveredIndex, setHoveredIndex] = useState(null);
+    const intervalRef = useRef(null);
+
+    // activeIndex prefers hovered, otherwise clicked/auto
+    const activeIndex = hoveredIndex !== null ? hoveredIndex : index;
+
+    const prevIndex = (activeIndex - 1 + cards.length) % cards.length;
+    const nextIndex = (activeIndex + 1) % cards.length;
+
+    const cardData = [
+        { id: prevIndex, pos: 'left' },
+        { id: activeIndex, pos: 'center' },
+        { id: nextIndex, pos: 'right' },
+    ];
+
+    const variants = {
+        left: {
+            x: -150,
+            scale: 0.75,
+            rotateY: 25,
+            opacity: 0.7,
+            zIndex: 5,
+            transition: { type: 'spring', stiffness: 300, damping: 30 },
+        },
+        center: {
+            x: 0,
+            scale: 1,
+            rotateY: 0,
+            opacity: 1,
+            zIndex: 20,
+            transition: { type: 'spring', stiffness: 300, damping: 30 },
+        },
+        right: {
+            x: 150,
+            scale: 0.75,
+            rotateY: -25,
+            opacity: 0.7,
+            zIndex: 10,
+            transition: { type: 'spring', stiffness: 300, damping: 30 },
+        },
+    };
+
+    useEffect(() => {
+        if (hoveredIndex === null) {
+            intervalRef.current = setInterval(() => {
+                setIndex((prev) => (prev + 1) % cards.length);
+            }, 5000);
+        } else {
+            clearInterval(intervalRef.current);
+        }
+
+        return () => clearInterval(intervalRef.current);
+    }, [hoveredIndex]);
+
+    // When a card is clicked, update index, which controls button highlight
+    const handleCardClick = (id) => {
+        setIndex(id);
+        setHoveredIndex(null); // Ensure hover state cleared to resume auto rotate on mouse leave
+    };
+
+    return (
+        <div className="h-[70vh] w-full flex items-center justify-center bg-white px-12 py-8">
+            <div className="flex w-full max-w-8xl gap-40 items-center">
+
+                {/* Button + Description List */}
+                <div className="w-1/2 flex flex-col gap-4">
+                    {buttonLabels.map((label, i) => (
+                        <div key={i} className="flex flex-col gap-2">
+                            <button
+                                onMouseEnter={() => setHoveredIndex(i)}
+                                onMouseLeave={() => setHoveredIndex(null)}
+                                onClick={() => {
+                                    setIndex(i);
+                                    setHoveredIndex(null);
+                                }}
+                                className={`px-6 py-3 rounded-lg transition text-left text-3xl font-light flex items-center gap-2`}
+                            >
+                                <span className="animate-border inline-block">{label}</span>
+                                <ArrowRight className="w-4 h-4 text-inherit" />
+                            </button>
+                            <p className="ml-6 text-gray-400 font-light -mt-3 font-xl">{descriptions[i]}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* 3D Card Carousel */}
+                <div className="w-1/2 flex justify-center">
+                    <div
+                        className="relative w-[500px] h-[350px] perspective"
+                        style={{ transformStyle: 'preserve-3d' }}
+                    >
+                        <AnimatePresence initial={false} mode="popLayout">
+                            {cardData.map(({ id, pos }) => (
+                                <motion.div
+                                    key={id}
+                                    className="absolute top-0 left-0 w-full h-full rounded-xl shadow-2xl cursor-pointer select-none overflow-hidden"
+                                    variants={variants}
+                                    initial="center"
+                                    animate={pos}
+                                    exit={{ opacity: 0, scale: 0.5 }}
+                                    style={{ pointerEvents: 'auto', zIndex: variants[pos].zIndex }}
+                                    onClick={() => handleCardClick(id)}
+                                >
+                                    <img
+                                        src={cards[id]}
+                                        alt={`Card ${id + 1}`}
+                                        className="w-full h-full object-cover"
+                                        draggable={false}
+                                    />
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

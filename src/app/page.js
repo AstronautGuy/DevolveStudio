@@ -5,6 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Hero from "@/components/Hero";
+import EmailSection from "@/components/emailSection";
+import CardsSection from "@/components/cardsSection";
 
 export default function Home() {
 
@@ -12,9 +14,7 @@ export default function Home() {
         <>
             <Hero />
             <section className="bg-gray-300 flex items-center justify-between px-20 py-15">
-                <div>
-                    <p className="font-light text-3xl">Get your website built in just a click</p>
-                </div>
+                <EmailSection />
                 <div className="flex flex-col w-full max-w-1/2 space-y-4">
                     <div className="flex items-center space-x-2">
                         <Input type="email" placeholder="Email" className="bg-white py-7 px-7 rounded-0 placeholder:text-lg placeholder:font-light text-lg" />
@@ -25,6 +25,7 @@ export default function Home() {
                     </p>
                 </div>
             </section>
+            <CardsSection />
             <section className="flex items-center justify-center h-[60vh] text-xl bg-gray-200 pl-10 pr-20 gap-20">
                 <div className="flex h-[40vh] w-2/3 bg-gray-400 justify-center items-center overflow-hidden">
                     <video
