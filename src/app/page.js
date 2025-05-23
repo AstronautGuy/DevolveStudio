@@ -13,21 +13,10 @@ export default function Home() {
     return (
         <>
             <Hero />
-            <section className="bg-gray-300 flex items-center justify-between px-20 py-15">
-                <EmailSection />
-                <div className="flex flex-col w-full max-w-1/2 space-y-4">
-                    <div className="flex items-center space-x-2">
-                        <Input type="email" placeholder="Email" className="bg-white py-7 px-7 rounded-0 placeholder:text-lg placeholder:font-light text-lg" />
-                        <Button type="submit" className="py-7 px-7 text-lg">Subscribe</Button>
-                    </div>
-                    <p className="text-gray-800 font-light text-lg">
-                        Connect with our expert team to bring your website to life—fast, effortless, and tailored to you.
-                    </p>
-                </div>
-            </section>
+            <EmailSection />
             <CardsSection />
-            <section className="flex items-center justify-center h-[60vh] text-xl bg-gray-200 pl-10 pr-20 gap-20">
-                <div className="flex h-[40vh] w-2/3 bg-gray-400 justify-center items-center overflow-hidden">
+            <section className="flex flex-col md:flex-row items-center justify-center h-auto md:h-[60vh] text-xl bg-gray-200 px-6 md:pl-10 md:pr-20 gap-10 md:gap-20 py-10 md:py-0">
+                <div className="flex h-[40vh] md:w-2/3 w-full bg-gray-400 justify-center items-center overflow-hidden rounded-md">
                     <video
                         className="h-full w-full object-cover"
                         autoPlay
@@ -40,7 +29,7 @@ export default function Home() {
                     </video>
                 </div>
 
-                <div className="max-w-1/2 flex flex-col items-start space-y-4">
+                <div className="max-w-full md:max-w-1/2 flex flex-col items-start space-y-4 w-full">
                     <Link href="/" className="flex flex-row gap-2 animate-border font-semibold">
                         Create a website <ArrowRight />
                     </Link>
@@ -63,7 +52,6 @@ export default function Home() {
                     </p>
                 </div>
             </section>
-
         </>
     );
 }
