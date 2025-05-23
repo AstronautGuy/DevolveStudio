@@ -56,6 +56,7 @@ export default function Header() {
                         width={56}
                         height={56}
                         className="w-14 h-14"
+                        draggable={false}
                         priority
                     />
                     <div className={myFont.className}>
@@ -75,7 +76,7 @@ export default function Header() {
 
                 <div className="hidden md:flex flex-row items-center gap-4 text-sm sm:text-base lg:text-lg uppercase">
                     <Link href="/">Log In</Link>
-                    <Link href="/">Contact Us</Link>
+                    <Link href="/" className={"bg-white px-4 py-4 !text-black"}>Contact</Link>
                 </div>
 
                 <button
