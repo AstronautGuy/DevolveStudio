@@ -51,7 +51,7 @@ export default function Home() {
                 </div>
             </section>
             <CardsSection />
-            <PageSection />
+            { /* <PageSection /> */}
             <GSAPScrollSection />
         </>
     );
