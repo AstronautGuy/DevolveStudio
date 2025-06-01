@@ -39,6 +39,48 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-highlight: highlight 0.6s ease forwards;
+  --animate-flash: flash 0.6s ease forwards;
+
+  @keyframes highlight {
+    0% {
+      backgroundColor: transparent;
+    }
+    100% {
+      backgroundColor: var(--highlight);
+    }
+  }
+
+  @keyframes flash {
+    0% {
+      backgroundColor: hsl(var(--card));
+    }
+    50% {
+      backgroundColor: var(--highlight);
+    }
+    100% {
+      backgroundColor: hsl(var(--card));
+    }
+  }
+  @keyframes highlight {
+  0% {
+    backgroundColor: transparent;
+    }
+  100% {
+    backgroundColor: var(--highlight);
+    }
+  }
+  @keyframes flash {
+  0% {
+    backgroundColor: hsl(var(--card));
+    }
+  50% {
+    backgroundColor: var(--highlight);
+    }
+  100% {
+    backgroundColor: hsl(var(--card));
+    }
+  }
 }
 
 :root {

@@ -17,7 +17,7 @@ export default function GSAPScrollSection() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=4000",
+                    end: "+=6000",
                     scrub: true,
                     pin: true,
                 },
@@ -36,7 +36,7 @@ export default function GSAPScrollSection() {
                     rotateX: 0,      // now stands straight
                     opacity: 1,
                     scale: 1,
-                    duration: 2,
+                    duration: 6,
                     ease: "power4.out"
                 }
             );
@@ -44,7 +44,7 @@ export default function GSAPScrollSection() {
                 tl.from(".moon", {
                     y: "25vh",
                     opacity: 0,
-                    duration: 1,
+                    duration: 3,
                     ease: "power4.out",
                 }, ">");
 
@@ -52,7 +52,7 @@ export default function GSAPScrollSection() {
             tl.from(".lcloud", {
                 x: "-30vw",
                 opacity: 0,
-                duration: 1,
+                duration: 6,
                 ease: "power4.out",
             });
 
@@ -60,28 +60,28 @@ export default function GSAPScrollSection() {
             tl.from(".rcloud", {
                 x: "30vw",
                 opacity: 0,
-                duration: 1,
+                duration: 6,
                 ease: "power4.out",
             }, "<"); // "<" means start at same time as previous animation ends
 
             tl.from(".header", {
                 y: "-30vh",
                 opacity: 0,
-                duration: 1,
+                duration: 3,
                 ease: "power4.out",
             }, ">"); // "<" means start at same time as previous animation ends
 
             tl.from(".text", {
                 x: "-30vw",
                 opacity: 0,
-                duration: 1,
+                duration: 3,
                 ease: "power4.out",
             }, ">");
 
             tl.from(".socials", {
                 y: "30vw",
                 opacity: 0,
-                duration: 1,
+                duration: 3,
                 ease: "power4.out",
             }, ">");
         }, sectionRef);
