@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import Hero from '@/components/Hero';
 import EmailSection from '@/components/EmailSection';
 import CardsSection from '@/components/CardSection';
-import PageSection from '@/components/PageSection';
+//import PageSection from '@/components/PageSection';
 import GSAPScrollSection from "@/components/GSAPScrollSection";
 
 export default function Home() {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronDown, Menu, X } from "lucide-react";
-import NavigationMenuComponent from "@/components/NavigationMenu";
+//import NavigationMenuComponent from "@/components/NavigationMenu";
 
 export default function Header() {
     const [drawerOpen, setDrawerOpen] = useState(false);
