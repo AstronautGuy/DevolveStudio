@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import Hero from '@/components/Hero';
 import EmailSection from '@/components/EmailSection';
 import CardsSection from '@/components/CardSection';
-import GSAPScrollSection from "@/components/GSAPScrollSection";
+//import GSAPScrollSection from "@/components/GSAPScrollSection";
 import ChromeSectionWrapper from "@/components/ChromeSectionWrapper";
 
 export default function Home() {
@@ -51,7 +51,7 @@ export default function Home() {
                 </div>
             </section>
             <CardsSection />
-            <GSAPScrollSection />
+            {/*<GSAPScrollSection />*/}
             <ChromeSectionWrapper />
         </>
     );

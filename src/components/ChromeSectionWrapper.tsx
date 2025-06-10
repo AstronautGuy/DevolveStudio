@@ -22,7 +22,7 @@ export default function ChromeSectionWrapper() {
         <section className="relative h-[90vh] w-full bg-gray-300 overflow-hidden">
             <ChromeSection />
             <div className="absolute top-50 left-10 w-1/4 h-full z-10">
-                <h1 className="text-gray-300 text-center font-light text-8xl">
+                <h1 className="text-[#00ff66] text-center font-light text-8xl cursor-normal select-none">
                     <TypewriterText segments={text} speed={150} initialDelay={50} className="inline uppercase" />
                 </h1>
             </div>

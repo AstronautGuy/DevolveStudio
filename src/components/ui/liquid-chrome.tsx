@@ -1,7 +1,5 @@
 'use client'
 
-// @ts-nocheck
-
 import React, { useRef, useEffect, FC } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 
@@ -92,7 +90,9 @@ export const Component: FC<ComponentProps> = ({
         }
         `;
 
+        //@ts-ignore
         const geometry = new Triangle(gl);
+        //@ts-ignore
         const program = new Program(gl, {
         vertex: vertexShader,
         fragment: fragmentShader,
@@ -112,6 +112,7 @@ export const Component: FC<ComponentProps> = ({
             uMouse: { value: new Float32Array([0.5, 0.5]) }, // Initialize mouse to center
         },
         });
+        //@ts-ignore
         const mesh = new Mesh(gl, { geometry, program });
 
         function resize() {
@@ -123,7 +124,9 @@ export const Component: FC<ComponentProps> = ({
             if (width === 0 || height === 0) return;
 
             renderer.setSize(width * dpr, height * dpr);
+            //@ts-ignore
             gl.canvas.style.width = `${width}px`;
+            //@ts-ignore
             gl.canvas.style.height = `${height}px`;
 
             const resUniform = program.uniforms.uResolution.value as Float32Array;
@@ -175,6 +178,7 @@ export const Component: FC<ComponentProps> = ({
         if (container.firstChild) {
             container.removeChild(container.firstChild);
         }
+        //@ts-ignore
         container.appendChild(gl.canvas);
 
         return () => {
@@ -184,7 +188,9 @@ export const Component: FC<ComponentProps> = ({
                 container.removeEventListener("mousemove", handleMouseMove);
                 container.removeEventListener("touchmove", handleTouchMove);
             }
+            //@ts-ignore
             if (gl && gl.canvas && gl.canvas.parentElement) {
+                //@ts-ignore
                 gl.canvas.parentElement.removeChild(gl.canvas);
             }
             if (gl) {
