@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/backend": "^2.1.0",
     "@clerk/nextjs": "^6.22.0",
+    "@prisma/extension-accelerate": "^2.0.1",
     "@radix-ui/react-navigation-menu": "^1.2.13",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
@@ -22,6 +24,7 @@
     "ogl": "^1.0.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "svix": "^1.67.0",
     "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
@@ -32,7 +35,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
+    "prisma": "^6.10.1",
     "tailwindcss": "^4",
+    "tsx": "^4.20.3",
     "tw-animate-css": "^1.3.3",
     "typescript": "^5"
   }
