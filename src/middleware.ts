@@ -9,7 +9,7 @@ export default clerkMiddleware(async (auth, req) => {
     const role = (sessionClaims?.metadata as { role?: string })?.role
 
     if (isAdminRoute(req) && role !== 'admin') {
-        return NextResponse.redirect(new URL('/', req.url))
+        return new NextResponse(null, { status: 404 })
     }
 })
 

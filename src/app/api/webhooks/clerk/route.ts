@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
 
     if (event.type === "user.created") {
-        const { id, email_addresses, first_name, last_name } = event.data;
+        const { id, email_addresses, first_name, last_name, username } = event.data;
         await prisma.user.upsert({
             where: { clerkId: id },
             update: {},
@@ -26,6 +26,7 @@ export async function POST(req: Request) {
                 clerkId: id,
                 email: email_addresses[0].email_address,
                 name: `${first_name} ${last_name}`,
+                username: `${username}`,
             },
         });
     }

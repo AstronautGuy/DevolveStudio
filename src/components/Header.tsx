@@ -9,10 +9,31 @@ import {
     UserButton,
     SignInButton,
     SignedOut,
-    SignedIn,
+    SignedIn, UserProfile,
 } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
+
+const BillIcon = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" fill="currentColor"
+             stroke="gray" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+             className="lucide lucide-notepad-text-icon lucide-notepad-text">
+            <path d="M8 2v4"/>
+            <path d="M12 2v4"/>
+            <path d="M16 2v4"/>
+            <rect width="16" height="18" x="4" y="4" rx="2"/>
+            <path d="M8 10h6"/>
+            <path d="M8 14h8"/>
+            <path d="M8 18h5"/>
+        </svg>
+    )
+}
 
 export default function Header() {
+
+    const {user, isLoaded} = useUser();
+    const role = user?.publicMetadata?.role;
+
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [scrollStage, setScrollStage] = useState("top");
 
@@ -80,9 +101,19 @@ export default function Header() {
                     <SignedOut>
                         <SignInButton />
                     </SignedOut>
-                    <Link href="/" className={"bg-white px-4 py-4 text-black hover:bg-black hover:text-white"}>Contact</Link>
+                    <Link href="/" className={"bg-white px-4 py-4 text-black hover:bg-black hover:text-white"}>
+                        Contact
+                    </Link>
+                    {isLoaded && role === "admin" && (
+                        <Link href="/admin" className={"bg-white px-4 py-4 text-black hover:bg-black hover:text-white"}>
+                            Dashboard
+                        </Link>
+                    )}
                     <SignedIn>
-                        <UserButton/>
+                        <UserButton>
+                            {/* You can also pass the content as direct children */}
+                            <UserButton.UserProfileLink label="Payments and History" url="/userpages/payments" labelIcon={<BillIcon />} />
+                        </UserButton>
                     </SignedIn>
                 </div>
 

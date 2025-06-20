@@ -15,11 +15,23 @@ datasource db {
 }
 
 model User {
-  id      Int     @id @default(autoincrement())
-  clerkId String  @unique
-  email   String  @unique
-  name    String?
-  posts   Post[]
+  id       Int        @id @default(autoincrement())
+  clerkId  String     @unique
+  email    String     @unique
+  name     String?
+  username String?    @unique
+  posts    Post[]
+  payments Payments[]
+}
+
+model Payments {
+  id          Int      @id @default(autoincrement())
+  item        String
+  description String?
+  success     Boolean  @default(false)
+  payerId     Int
+  payer       User     @relation(fields: [payerId], references: [id])
+  createdAt   DateTime @default(now())
 }
 
 model Post {
