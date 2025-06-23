@@ -12,10 +12,11 @@ import {
     SignedIn, UserProfile,
 } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 
 const BillIcon = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48" fill="currentColor"
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
              stroke="gray" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
              className="lucide lucide-notepad-text-icon lucide-notepad-text">
             <path d="M8 2v4"/>
@@ -30,6 +31,21 @@ const BillIcon = () => {
 }
 
 export default function Header() {
+    const pathname = usePathname();
+
+    const hiddenRoutes = [
+        "/sign-in",
+        "/sign-up",
+        "/users",
+        "/admin",
+        "/404",
+        "/500",
+        "/not-authorized"
+    ]
+
+    const shouldHideHeader = hiddenRoutes.some(route =>
+        pathname.startsWith(route.replace(/\[.*?\]/g, '')) // crude dynamic match
+    );
 
     const {user, isLoaded} = useUser();
     const role = user?.publicMetadata?.role;
@@ -66,6 +82,9 @@ export default function Header() {
         ${scrollStage === "scrolled" ? "bg-black text-white" : ""}
     `;
 
+    if (shouldHideHeader) {
+        return null; // Don't render the header for these routes
+    }
     return (
         <>
             <header className={headerClass}>
@@ -111,8 +130,7 @@ export default function Header() {
                     )}
                     <SignedIn>
                         <UserButton>
-                            {/* You can also pass the content as direct children */}
-                            <UserButton.UserProfileLink label="Payments and History" url="/userpages/payments" labelIcon={<BillIcon />} />
+                            <UserButton.UserProfileLink label="Payments and History" url="/users/me" labelIcon={<BillIcon />} />
                         </UserButton>
                     </SignedIn>
                 </div>

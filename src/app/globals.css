@@ -273,3 +273,14 @@ body {
   animation: fadeInFromTopRight 1500ms ease forwards;
   /* Slow and smooth */
 }
+/* globals.css */
+.cl-userButtonAvatarBox {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.cl-avatarImage {
+  width: 48px !important;
+  height: 48px !important;
+  object-fit: cover;
+}
