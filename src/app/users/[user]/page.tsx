@@ -43,37 +43,28 @@ const items = [
     },
 ]
 
-type PageProps = {
-    params: {
-        user: string;
-    };
-};
-export default async function PrivateUserPage({
-                                                  params,
-                                              }: {
-    params: { user: string };
-}): Promise<JSX.Element> {
+export default async function PrivateUserPage(props: any) {
+    const { params } = props;
+    const urlUsername = params.user;
+
     const clerkUser = await currentUser();
 
     if (!clerkUser || !clerkUser.username) {
         redirect("/sign-in");
     }
 
-    const urlUsername = params.user;
     const loggedInUsername = clerkUser.username;
 
-    // 🔒 Only allow access if the username in the URL matches the logged-in user
     if (urlUsername !== loggedInUsername) {
         redirect("/not-authorized");
     }
 
-    // ✅ Fetch full user data from Prisma if needed
     const user = await prisma.user.findUnique({
         where: { username: urlUsername },
     });
 
     if (!user) {
-        redirect("/404"); // or use `notFound()`
+        redirect("/404");
     }
 
     return (
