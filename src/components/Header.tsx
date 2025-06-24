@@ -9,7 +9,7 @@ import {
     UserButton,
     SignInButton,
     SignedOut,
-    SignedIn, UserProfile,
+    SignedIn,
 } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
@@ -130,7 +130,7 @@ export default function Header() {
                     )}
                     <SignedIn>
                         <UserButton>
-                            <UserButton.UserProfileLink label="Payments and History" url="/users/me" labelIcon={<BillIcon />} />
+                            <UserButton.UserProfileLink label="Payments and History" url="/users/me" labelIcon={<BillIcon />}  />
                         </UserButton>
                     </SignedIn>
                 </div>
