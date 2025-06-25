@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/app/generated/prisma"
@@ -15,31 +9,28 @@ datasource db {
 }
 
 model User {
-  id       Int        @id @default(autoincrement())
-  clerkId  String     @unique
-  email    String     @unique
+  id       Int       @id @default(autoincrement())
+  clerkId  String    @unique
+  email    String    @unique
   name     String?
-  username String?    @unique
-  posts    Post[]
-  payments Payments[]
+  username String?   @unique
+  invoices Invoice[]
 }
 
-model Payments {
-  id          Int      @id @default(autoincrement())
-  item        String
-  description String?
-  success     Boolean  @default(false)
-  payerId     Int
-  payer       User     @relation(fields: [payerId], references: [id])
-  createdAt   DateTime @default(now())
-}
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
-  createdAt DateTime @default(now())
+model Invoice {
+  id                Int       @id @default(autoincrement())
+  userId            Int
+  invoiceNumber     String    @unique
+  amount            Int
+  description       String?
+  status            String
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  pdfUrl            String?
+  issuedAt          DateTime  @default(now())
+  dueAt             DateTime?
+  paidAt            DateTime?
+  recurringCycle    String?
+  renewalDate       DateTime?
+  user              User      @relation(fields: [userId], references: [id])
 }

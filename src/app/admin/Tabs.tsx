@@ -2,14 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-const tabs = ['Users', 'Domains'] as const;
+const tabs = ['Users'] as const;
 
 export default function AdminTabs({
                                       users,
-                                      domains,
                                   }: {
     users: any[];
-    domains: any[];
 }) {
     const [activeTab, setActiveTab] = useState(0);
     const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -21,7 +19,7 @@ export default function AdminTabs({
         setExpandedUserId((prev) => (prev === id ? null : id));
     };
 
-    const data = activeTab === 0 ? users : domains;
+    const data = activeTab === 0 ? users : [];
 
     useEffect(() => {
         const el = tabRefs.current[activeTab];

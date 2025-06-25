@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Invoice" ALTER COLUMN "dueAt" DROP NOT NULL,
+ALTER COLUMN "recurringCycle" DROP NOT NULL,
+ALTER COLUMN "renewalDate" DROP NOT NULL;

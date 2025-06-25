@@ -31,22 +31,5 @@ export async function POST(req: Request) {
         });
     }
 
-    if (event.type === "user.updated") {
-        const { id, email_addresses, username, first_name, last_name } = event.data;
-
-        try {
-            await prisma.user.update({
-                where: { clerkId: id },
-                data: {
-                    email: email_addresses[0]?.email_address || undefined,
-                    name: `${first_name} ${last_name}`.trim(),
-                    username: username || undefined,
-                },
-            });
-        } catch (err) {
-            console.error("User update failed:", err);
-        }
-    }
-
     return new Response("OK");
 }
